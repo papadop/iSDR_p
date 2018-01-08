@@ -1,6 +1,6 @@
 MKL_FOLDER=/opt/intel
 ROOT_PATH=/home/papadop/compiles
-MKLROOT=${MKL_FOLDER}/compilers_and_libraries_2017.4.196/linux/mkl
+MKLROOT=${MKL_FOLDER}/compilers_and_libraries_2018.1.163/linux/mkl
 
 SRCS =  src/MxNE.cpp src/iSDR.cpp src/ReadWriteMat.cpp
 MKL_CXXFLAGS= -DMKL_ILP64 -m64 -march=native -I${MKLROOT}/include 
@@ -24,8 +24,8 @@ all: $(MYPROGRAM) $(MYPROGRAM3) $(MYPROGRAM2)
 $(MYPROGRAM):$(SOURCE)
 	$(CC) $(INCLUDES) $(CXXFLAGS) $(SRCS) $(SOURCE) -o $(TARGET)$(MYPROGRAM) $(LDFLAGS)
 
-$(MYPROGRAM3):$(SOURCE3)
-	$(CC) $(INCLUDES) $(CXXFLAGS) $(SRCS) $(SOURCE3) -o $(TARGET)$(MYPROGRAM3) $(LDFLAGS) -fopenmp
+iSDR_cv: src/MxNE.cpp src/iSDR.cpp src/ReadWriteMat.cpp src/CV_iSDR.cpp main_cv.cpp
+	$(CC) $(INCLUDES) $(CXXFLAGS) $^ -o $(TARGET)$(MYPROGRAM3) $(LDFLAGS) -fopenmp
 
 $(MYPROGRAM2):$(SOURCE2)
 	$(CC) $(INCLUDES) $(CXXFLAGS) $(SRCS) $(SOURCE2) -o $(TARGET2)$(MYPROGRAM2) $(LDFLAGS)

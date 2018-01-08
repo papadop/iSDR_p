@@ -367,7 +367,7 @@ int iSDR::iSDR_solve(const Maths::DMatrix &G_o, const Maths::IMatrix &SC,
         _MxNE.Compute_Me(Gt, Jtmp, Me);
         Me -= M;
         cxxblas::nrm2(n_t*n_c, &Me.data()[0], 1, n_Me);
-        if (verbose){
+        if (verbose) {
             std::cout<<"Number of active regions/sources = "<<n_s<<std::endl;
             std::cout<<"Max Eigenvalue after norm "<< EigMax <<std::endl;
         }

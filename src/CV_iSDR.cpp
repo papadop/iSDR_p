@@ -36,6 +36,7 @@ CV_iSDR::CV_iSDR( int Kfold, double d_w_tol, bool verbose, bool use_mxne){
     this-> Kfold = Kfold;
     this-> use_mxne = use_mxne;
 }
+
 void CV_iSDR::printProgress (double percentage){
     int val = (int) (percentage * 100);
     int lpad = (int) (percentage * PBWIDTH);
@@ -44,9 +45,8 @@ void CV_iSDR::printProgress (double percentage){
     fflush(stdout);
 }
 
-double CV_iSDR::Run_CV(const Maths::DMatrix &M, const Maths::DMatrix &G_o,
-    const Maths::DMatrix &GA_initial, const Maths::IMatrix &SC, const Maths::DVector &ALPHA,
-    Maths::DVector &alpha_real, Maths::DMatrix &cv_fit_data){
+double CV_iSDR::Run_CV(const Maths::DMatrix &M, const Maths::DMatrix &G_o,const Maths::DMatrix &GA_initial,
+                       const Maths::IMatrix &SC, const Maths::DVector &ALPHA,Maths::DVector &alpha_real, Maths::DMatrix &cv_fit_data) {
     using namespace flens;
     typedef typename Maths::DMatrix::IndexType     IndexType;
     const Underscore<IndexType>  _;
@@ -78,8 +78,7 @@ double CV_iSDR::Run_CV(const Maths::DMatrix &M, const Maths::DMatrix &G_o,
     std::random_device rd;
     std::mt19937 generator(rd());
     int iter_i = 0;
-    #pragma omp parallel for default(shared) private(r_s, x) collapse(2) \
-    num_threads(n_cpu)
+    #pragma omp parallel for default(shared) private(r_s, x) collapse(2) num_threads(n_cpu)
     for (r_s = 1; r_s<=n_Kfold; ++r_s){
         for (x = 1; x <= n_alpha ; ++x){
             double alpha = alpha_real(x);
@@ -159,8 +158,7 @@ double CV_iSDR::Run_CV(const Maths::DMatrix &M, const Maths::DMatrix &G_o,
 }
 
 
-int CV_iSDR::WriteData(const char *file_path, const Maths::DVector &alpha,
-    const Maths::DMatrix &cv_fit_data, double alpha_max){
+int CV_iSDR::WriteData(const char *file_path, const Maths::DVector &alpha,const Maths::DMatrix &cv_fit_data, double alpha_max){
     /* This function write the results of the K-fold cross-validation into a
      * mat file.
      *      file_path: file name and location to where you wanna write results
